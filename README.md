@@ -1,6 +1,6 @@
 # 4740-Project-I
 
-## First Project:
+## First Project
 
 - Form a group of 2 or 3 (3 or 4 for 4740) students.
 - Implement a simple DNN architecture (not using pre-existing complete network architecture but you can use pre-existing implementation of layers, loss functions, backpropagation…).
