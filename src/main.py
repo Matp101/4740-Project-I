@@ -14,7 +14,7 @@ l_batchnorm = [True, False]
 l_reg = [True, False]
 l_regtypes = ['l1', 'l2', 'l1_l2']
 l_regvalues = [0.01, 0.001]
-l_epochs = [10, 50, 75, 100]
+l_epochs = [5, 10, 15, 25]
 l_optimizers = ['adam', 'sgd', 'rmsprop']
 l_losses = ['binary_crossentropy', 'categorical_crossentropy', 'hinge', 'mean_squared_error', 'poisson']
 
@@ -56,12 +56,12 @@ testing_labels = np.array(testing_labels)
 
 #open a text file and add the name of the model
 file = open("results.csv", "a")
-file.write("Number, Model, Optimizer, Loss, Epochs, Dropout1, Dropout2, Batch Normalization, Regularization 1, Regularization Type 1, Regularization Value 1, Regularization 2, Regularization Type 2, Regularization Value 2, Training Accuracy, Testing Accuracy, Training Loss, Testing Loss\n")
 count = 0
 loaded = False
-for d1, d2, norm,  in itertools.product(l_dropout, l_dropout, l_batchnorm):
-    print("d1: ", d1, " d2: ", d2, " norm: ", norm)
-    for reg1, regt1, regv1, reg2, regt2, regv2, epoch, opt, lloss in itertools.product(l_reg, l_regtypes, l_regvalues, l_reg, l_regtypes, l_regvalues, l_epochs, l_optimizers, l_losses):
+prod = itertools.product(l_dropout, l_dropout, l_batchnorm, l_reg, l_regtypes, l_regvalues, l_reg, l_regtypes, l_regvalues, l_epochs, l_optimizers, l_losses)
+file.write("Total:"+str(len(list(prod)))+"\n")
+file.write("Number, Model, Optimizer, Loss, Epochs, Dropout1, Dropout2, Batch Normalization, Regularization 1, Regularization Type 1, Regularization Value 1, Regularization 2, Regularization Type 2, Regularization Value 2, Training Accuracy, Testing Accuracy, Training Loss, Testing Loss\n")
+for d1, d2, norm, reg1, regt1, regv1, reg2, regt2, regv2, epoch, opt, lloss in prod:
         print("reg1: ", reg1, " regt1: ", regt1, " regv1: ", regv1, " reg2: ", reg2, " regt2: ", regt2, " regv2: ", regv2, " epoch: ", epoch, " opt: ", opt, " lloss: ", lloss)
         if os.path.exists("models/mushroom_model_"+str(count)):
             model = tf.keras.models.load_model('models/mushroom_model_'+str(count))
