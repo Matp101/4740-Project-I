@@ -1,1 +1,0 @@
-[Optical Recognition of Handwritten Digits](https://archive-beta.ics.uci.edu/dataset/80/optical+recognition+of+handwritten+digits)
