@@ -58,12 +58,9 @@ testing_labels = np.array(testing_labels)
 file = open("results.csv", "a")
 count = 0
 loaded = False
-#prod = itertools.product(l_dropout, l_dropout, l_batchnorm, l_reg, l_regtypes, l_regvalues, l_reg, l_regtypes, l_regvalues, l_epochs, l_optimizers, l_losses)
 prod = itertools.product(l_dropout, l_batchnorm, l_reg, l_regtypes, l_regvalues, l_epochs, l_optimizers, l_losses)
-file.write("Total:"+str(len(list(prod)))+"\n")
+#file.write("Total:"+str(len(list(prod)))+"\n")
 file.write("Number, Model, Optimizer, Loss, Epochs, Dropout1, Batch Normalization, Regularization 1, Regularization Type 1, Regularization Value 1, Training Accuracy, Testing Accuracy, Training Loss, Testing Loss\n")
-#file.write("Number, Model, Optimizer, Loss, Epochs, Dropout1, Dropout2, Batch Normalization, Regularization 1, Regularization Type 1, Regularization Value 1, Regularization 2, Regularization Type 2, Regularization Value 2, Training Accuracy, Testing Accuracy, Training Loss, Testing Loss\n")
-#for d1, d2, norm, reg1, regt1, regv1, reg2, regt2, regv2, epoch, opt, lloss in prod:
 for d1, norm, reg1, regt1, regv1, epoch, opt, lloss in itertools.product(l_dropout, l_batchnorm, l_reg, l_regtypes, l_regvalues, l_epochs, l_optimizers, l_losses):
     print("reg1: ", reg1, " regt1: ", regt1, " regv1: ", regv1, " epoch: ", epoch, " opt: ", opt, " lloss: ", lloss)
     if os.path.exists("models/mushroom_model_"+str(count)):
@@ -84,17 +81,6 @@ for d1, norm, reg1, regt1, regv1, epoch, opt, lloss in itertools.product(l_dropo
         else:
             model.add(tf.keras.layers.Dense(22, activation="relu", input_shape=(22,)))
         model.add(tf.keras.layers.Dropout(d1)) if d1 != 0 else None
-
-        #if reg2 is True:
-        #    if regt2 == "l1":
-        #        model.add(tf.keras.layers.Dense(11, activation="relu", kernel_regularizer=tf.keras.regularizers.l1(regv2)))
-        #    elif regt2 == "l2":
-        #        model.add(tf.keras.layers.Dense(11, activation="relu", kernel_regularizer=tf.keras.regularizers.l2(regv2)))
-        #    elif regt2 == "l1_l2":
-        #        model.add(tf.keras.layers.Dense(11, activation="relu", kernel_regularizer=tf.keras.regularizers.l1_l2(regv2)))
-        #else:
-        #    model.add(tf.keras.layers.Dense(11, activation="relu"))
-        #model.add(tf.keras.layersDropout(d2)) if d2 != 0 else None
 
         model.add(tf.keras.layers.Dense(1, activation="sigmoid"))
 
@@ -139,8 +125,6 @@ for d1, norm, reg1, regt1, regv1, epoch, opt, lloss in itertools.product(l_dropo
     print("Testing Accuracy: ", acc)
     print("Training Loss: ", test_loss)
     print("Testing Loss: ", loss)
-    #add to file
-    #file.write(str(count)+", "+str(model)+", "+str(opt)+", "+str(lloss)+", "+str(epoch)+", "+str(d1)+", "+str(d2)+", "+str(norm)+", "+str(reg1)+", "+str(regt1)+", "+str(regv1)+", "+str(reg2)+", "+str(regt2)+", "+str(regv2)+", "+str(test_acc)+", "+str(acc)+", "+str(test_loss)+", "+str(loss)+"\n")
     file.write(str(count)+", "+str(model)+", "+str(opt)+", "+str(lloss)+", "+str(epoch)+", "+str(d1)+", "+str(norm)+", "+str(reg1)+", "+str(regt1)+", "+str(regv1)+", "+str(test_acc)+", "+str(acc)+", "+str(test_loss)+", "+str(loss)+"\n")
     file.flush()
 
@@ -151,11 +135,6 @@ for d1, norm, reg1, regt1, regv1, epoch, opt, lloss in itertools.product(l_dropo
         print('Saved mushroom_model_'+str(count))
     count = count + 1
     loaded = False
-
-    #save model to file
-    # model_json = model.to_json()
-    # with open("mushroom_model"+str(count)+".json", "w") as json_file:
-    #     json_file.write(model_json)
 
 #load model
 #model = tf.keras.models.load_model("mushroom_model")
