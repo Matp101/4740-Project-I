@@ -23,7 +23,8 @@ l_losses = ['binary_crossentropy', 'categorical_crossentropy',
             'hinge', 'mean_squared_error', 'poisson']
 
 data = pd.read_csv("../datasets/mushroom/agaricus-lepiota.data", header=None)
-features = data.iloc[:, 1:]
+# make sure to convert all single-char strings to ints
+features = data.iloc[:, 1:].applymap(lambda x: ord(x))
 labels = data.iloc[:, 0].apply(lambda x: 1 if x == 'e' else 0)
 
 # split data into training and testing
@@ -31,7 +32,7 @@ training_features, testing_features, training_labels, testing_labels = train_tes
     features, labels, test_size=0.2)
 
 # open a text file and add the name of the model
-with open("results.csv", "r") as f:
+with open("results.csv", "w") as f:
     count = 0
     loaded = False
     f.write("Number, Model, Optimizer, Loss, Epochs, Dropout1, Batch Normalization, Regularization 1, Regularization Type 1, Regularization Value 1, Training Accuracy, Testing Accuracy, Training Loss, Testing Loss\n")
@@ -99,9 +100,9 @@ with open("results.csv", "r") as f:
         print("Testing Accuracy: ", acc)
         print("Training Loss: ", test_loss)
         print("Testing Loss: ", loss)
-        file.write(str(count)+", "+str(model)+", "+str(opt)+", "+str(lloss)+", "+str(epoch)+", "+str(d1)+", "+str(norm)+", " +
+        f.write(str(count)+", "+str(model)+", "+str(opt)+", "+str(lloss)+", "+str(epoch)+", "+str(d1)+", "+str(norm)+", " +
                 str(reg1)+", "+str(regt1)+", "+str(regv1)+", "+str(test_acc)+", "+str(acc)+", "+str(test_loss)+", "+str(loss)+"\n")
-        file.flush()
+        f.flush()
 
         # save model
         if not loaded:
