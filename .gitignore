@@ -1,6 +1,5 @@
-src/models
-src/weights
-src/checkpoint
+src/keras/models
+src/keras/weights
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

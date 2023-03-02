@@ -5,10 +5,6 @@ import itertools
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-# os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-# config = tf.compat.v1.ConfigProto(device_count = {'GPU': 0})
-# sess = tf.compat.v1.Session(config=config)
-
 # optimizer, dropout, batch normalization, regularizatiom
 l_dropout = [0, 0.2, 0.5, 0.9]
 l_batchnorm = [True, False]
@@ -22,7 +18,7 @@ l_optimizers = ['adam', 'sgd', 'rmsprop']
 l_losses = ['binary_crossentropy', 'categorical_crossentropy',
             'hinge', 'mean_squared_error', 'poisson']
 
-data = pd.read_csv("../datasets/mushroom/agaricus-lepiota.data", header=None)
+data = pd.read_csv("../../datasets/mushroom/agaricus-lepiota.data", header=None)
 # make sure to convert all single-char strings to ints
 features = data.iloc[:, 1:].applymap(lambda x: ord(x))
 labels = data.iloc[:, 0].apply(lambda x: 1 if x == 'e' else 0)
@@ -88,14 +84,10 @@ with open("results.csv", "w") as f:
         print("Loss: ", lloss)
         print("Epochs: ", epoch)
         print("Dropout1: ", d1)
-        # print("Dropout2: ", d2)
         print("Batch Normalization: ", norm)
         print("Regularization 1: ", reg1)
         print("Regularization Type 1: ", regt1)
         print("Regularization Value 1: ", regv1)
-        # print("Regularization 2: ", reg2)
-        # print("Regularization Type 2: ", regt2)
-        # print("Regularization Value 2: ", regv2)
         print("Training Accuracy: ", test_acc)
         print("Testing Accuracy: ", acc)
         print("Training Loss: ", test_loss)
